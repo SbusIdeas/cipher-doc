@@ -17,7 +17,7 @@ To install the PyPDF2 library, run:
 ```bash
 pip install pypdf2
 ```
-
+ 
 ## Directory Structure
 
 The project directory should be structured as follows:
