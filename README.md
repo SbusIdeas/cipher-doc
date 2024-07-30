@@ -42,5 +42,5 @@ python page_seperator.py
 python pdf_encryptor.py
 ```
 
-The split PDF files will be saved in the `output_pages` directory, and the encrypted PDF files will be saved in the `encrypted_pages` directory.
+The split PDF files will be saved in the `output_pages` directory, and the encrypted PDF files will be saved in the `encrypted_pages` directory. Code is documented using docstrings if any changes are needed to be made.
 
