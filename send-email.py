@@ -1,11 +1,22 @@
 import pandas as pd
 import requests
 
-
+# Load data from Excel and CSV files
 df = pd.read_excel("database.xlsx")
 sys_link = pd.read_csv("sysNo-link.csv")
 
 def create_html_with_download_button(link, output_html_path):
+    """
+    Create an HTML file with a download button for the payslip.
+
+    Args:
+        link (str): The download link for the payslip.
+        output_html_path (str): The file path where the HTML will be saved.
+
+    Returns:
+        str: The HTML content.
+    """
+
     html_template = f"""
 <!DOCTYPE html>
 <html>
@@ -66,12 +77,13 @@ def create_html_with_download_button(link, output_html_path):
     </html>
     """
     
+    # Save html files locally for testing, code can function without
     with open(output_html_path, 'w') as html_file:
         html_file.write(html_template)
     
     return html_template
 
-# Post details
+# Email details
 sender_email = "fairsurecomms@inter-net.co.za"
 company_name = "Fairsure"
 subject = "Fairsure Communications"
@@ -81,10 +93,11 @@ for i in range(df.shape[0]):
     row = df.loc[i]
     sys_no = row["System No"]
     member_email = row["EMAIL ADDRESS"]
-    link = sys_link[ sys_link["sysNo"] == sys_no]["link"].iloc[0]
+    link = sys_link[sys_link["sysNo"] == sys_no]["link"].iloc[0]
 
     member_html_template = create_html_with_download_button(link, f"html_templates/{sys_no}.html")
 
+    # Send email via API
     resp = requests.post(
         "https://api.brevo.com/v3/smtp/email", 
         headers={
@@ -105,8 +118,8 @@ for i in range(df.shape[0]):
             ],
             "subject":subject,
             "htmlContent":member_html_template
-                }
-        )
+        }
+    )
 
     j += 1
     
@@ -118,9 +131,3 @@ for i in range(df.shape[0]):
 """)
 
 print(j)
-
-
-
-    
-
-
